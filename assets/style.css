@@ -627,6 +627,11 @@ h1 .accent {
   margin: 0;
 }
 
+/* With an odd number of screenshots the first one spans both columns, so the grid has no gap at the end. */
+.shot:first-child:nth-last-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .shot img {
   width: 100%;
   height: auto;
