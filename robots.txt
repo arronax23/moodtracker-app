@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://arronax23.github.io/moodtracker-app/sitemap.xml

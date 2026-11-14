@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Dziennik nastroju – wariant B „Mózg dwóch nastrojów”</title>
+  <defs>
+    <!-- pionowy gradient: odbicie lustrzane półkuli go nie psuje -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1D3F4A"/>
+      <stop offset="1" stop-color="#0F242B"/>
+    </linearGradient>
+    <!-- ten sam gradient w układzie przeskalowanej grupy mózgu (bruzdy zlewają się z tłem) -->
+    <linearGradient id="bg-in" gradientUnits="userSpaceOnUse" x1="0" y1="23" x2="0" y2="997">
+      <stop offset="0" stop-color="#1D3F4A"/>
+      <stop offset="1" stop-color="#0F242B"/>
+    </linearGradient>
+    <clipPath id="half"><rect x="0" y="0" width="498" height="1024"/></clipPath>
+    <g id="lobes" clip-path="url(#half)">
+      <circle cx="440" cy="330" r="110"/>
+      <circle cx="330" cy="400" r="105"/>
+      <circle cx="275" cy="520" r="100"/>
+      <circle cx="320" cy="640" r="100"/>
+      <circle cx="430" cy="700" r="100"/>
+      <circle cx="430" cy="510" r="170"/>
+    </g>
+    <g id="gyri" fill="none" stroke-width="32" stroke-linecap="round">
+      <path d="M 498 296 C 436 300 414 360 452 404"/>
+      <path d="M 286 440 C 340 432 376 470 370 524"/>
+      <path d="M 498 520 C 430 512 404 578 444 626"/>
+      <path d="M 292 610 C 336 600 368 622 378 664"/>
+    </g>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="208" fill="url(#bg)"/>
+  <g transform="translate(512 512) scale(0.92) translate(-512 -510)">
+    <!-- lewa półkula: spokój -->
+    <use href="#lobes" fill="#2DD4BF"/>
+    <use href="#gyri" stroke="url(#bg-in)"/>
+    <!-- prawa półkula: radość -->
+    <g transform="translate(1024 0) scale(-1 1)">
+      <use href="#lobes" fill="#FFD166"/>
+      <use href="#gyri" stroke="url(#bg-in)"/>
+    </g>
+  </g>
+</svg>
