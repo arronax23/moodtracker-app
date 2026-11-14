@@ -617,33 +617,131 @@ h1 .accent {
   color: var(--mood-green-ink);
 }
 
-.shots {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px 28px;
+/*
+  The screenshots: a track of full-width slides that scrolls sideways and snaps to each of them, so swiping
+  and the arrow keys work without the script. The script adds the arrows, the dots and the caption.
+*/
+.carousel-frame {
+  position: relative;
 }
 
-.shot {
-  margin: 0;
-}
-
-/* With an odd number of screenshots the first one spans both columns, so the grid has no gap at the end. */
-.shot:first-child:nth-last-child(odd) {
-  grid-column: 1 / -1;
-}
-
-.shot img {
-  width: 100%;
-  height: auto;
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  background: var(--card);
   border: 1px solid var(--stroke-card);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 12px 32px rgba(15, 36, 43, 0.12);
 }
 
-.shot figcaption {
-  margin-top: 14px;
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--stroke-card);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.carousel-arrow:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.carousel-arrow svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.2;
+}
+
+.carousel-prev {
+  left: -24px;
+}
+
+.carousel-next {
+  right: -24px;
+}
+
+.carousel-arrow[hidden],
+.carousel-dots[hidden] {
+  display: none;
+}
+
+.carousel-caption {
+  min-height: 1.6em;
+  margin: 18px 0 0;
   color: var(--text-muted);
   text-align: center;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+/* A 24-pixel target around a small dot; the current screenshot's dot is a wider bar. */
+.carousel-dots button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.carousel-dots button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #c4cacc;
+  transition: width 0.2s, background-color 0.2s;
+}
+
+.carousel-dots button:hover::before {
+  background: var(--text-subtle);
+}
+
+.carousel-dots button[aria-current="true"] {
+  width: 36px;
+}
+
+.carousel-dots button[aria-current="true"]::before {
+  width: 24px;
+  background: var(--accent);
 }
 
 .features {
@@ -941,9 +1039,27 @@ h1 .accent {
     padding: 64px 0;
   }
 
-  .shots,
   .features {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* On a phone the arrows stand inside the screenshot; swiping does the same. */
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .carousel-prev {
+    left: 8px;
+  }
+
+  .carousel-next {
+    right: 8px;
   }
 }
 
@@ -1007,7 +1123,8 @@ h1 .accent {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html,
+  .carousel-track {
     scroll-behavior: auto;
   }
 
